@@ -82,17 +82,16 @@ module "blog_alb" {
       }
     }
   }
-  /**
+  
   target_groups = {
-    instance = {
-      target_id        = 
+    ex-instance = {
       name_prefix      = "h1"
       protocol         = "HTTP"
       port             = 80
       target_type      = "instance"
     }
   }
-  */
+
   tags = {
     Environment = "Development"
     Project     = "Example"
