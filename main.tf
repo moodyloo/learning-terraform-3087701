@@ -65,7 +65,7 @@ module "blog_sg" {
   version = "4.13.0"
   name = "blog_new"
 
-  vpc_id = module.blog_vpc.vpc_id
+  vpc_id = module.blog_vpc.default.id
 
   ingress_rules       = ["http-80-tcp","https-443-tcp"]
   ingress_cidr_blocks = ["0.0.0.0/0"]
