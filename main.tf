@@ -89,15 +89,11 @@ module "blog_alb" {
   }
 
   target_groups = {
-    ex-instance = {
-      name_prefix      = "blog"
-      protocol         = "HTTP"
-      port             = 80
-      target_type      = "instance"
-      targets = {
-        target_id = aws_instance.blog.id
-        port = 80
-      }
+    instance = {
+      name_prefix = "blog-"
+      protocol    = "HTTPS"
+      port        = 443
+      target_type = "instance"
     }
   }
 
