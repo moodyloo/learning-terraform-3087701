@@ -49,6 +49,17 @@ module "autoscaling" {
   instance_type       = var.instance_type
 }
 
+resource "aws_instance" "blog" {
+  ami           = data.aws_ami.ubuntu.id
+  instance_type = "t3.micro"
+  subnet_id     = module.blog_vpc.public_subnets[0]
+  vpc_security_group_ids = [module.blog_sg.security_group_id]
+
+  tags = {
+    Name = "Blog"
+  }
+}
+
 module "blog_sg" {
   source = "terraform-aws-modules/security-group/aws"
   version = "4.13.0"
@@ -97,16 +108,5 @@ module "blog_alb" {
   tags = {
     Environment = "Development"
     Project     = "Example"
-  }
-}
-
-resource "aws_instance" "blog" {
-  ami           = data.aws_ami.ubuntu.id
-  instance_type = "t3.micro"
-  subnet_id     = module.blog_vpc.public_subnets[0]
-  vpc_security_group_ids = [module.blog_sg.security_group_id]
-
-  tags = {
-    Name = "Blog"
   }
 }
