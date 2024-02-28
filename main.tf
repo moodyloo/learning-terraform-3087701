@@ -32,7 +32,7 @@ module "blog_vpc" {
     Environment = "dev"
   }
 }
-
+/*
 module "autoscaling" {
   source  = "terraform-aws-modules/autoscaling/aws"
   version = "7.4.0"
@@ -48,7 +48,7 @@ module "autoscaling" {
   image_id            = data.aws_ami.app_ami.id
   instance_type       = var.instance_type
 }
-
+*/
 resource "aws_instance" "blog" {
   ami                    = data.aws_ami.app_ami.id
   instance_type          = var.instance_type
@@ -73,7 +73,7 @@ module "blog_sg" {
   egress_rules        = ["all-all"]
   egress_cidr_blocks  = ["0.0.0.0/0"]
 }
-
+/*
 module "blog_alb" {
   source = "terraform-aws-modules/alb/aws"
   version = "9.7.0"
@@ -110,3 +110,4 @@ module "blog_alb" {
     Project     = "Example"
   }
 }
+*/
