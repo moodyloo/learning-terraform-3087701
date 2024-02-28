@@ -84,8 +84,29 @@ module "blog_alb" {
     }
   }
 
+  target_groups = {
+    ex-instance = {
+      target_id        = aws_instance.blog.id
+      name_prefix      = "h1"
+      protocol         = "HTTP"
+      port             = 80
+      target_type      = "instance"
+    }
+  }
+
   tags = {
     Environment = "Development"
     Project     = "Example"
+  }
+}
+
+resource "aws_instance" "blog" {
+  ami           = data.aws_ami.ubuntu.id
+  instance_type = "t3.micro"
+  subnet_id     = module.blog_vpc.public_subnets[0]
+  vpc_security_group_ids = [blog_sg.security_group_id]
+
+  tags = {
+    Name = "Blog"
   }
 }
