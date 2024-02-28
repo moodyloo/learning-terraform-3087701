@@ -82,7 +82,7 @@ module "blog_alb" {
       }
     }
   }
-
+  /*
   target_groups = {
     instance = {
       target_id        = 
@@ -92,7 +92,7 @@ module "blog_alb" {
       target_type      = "instance"
     }
   }
-
+  */
   tags = {
     Environment = "Development"
     Project     = "Example"
