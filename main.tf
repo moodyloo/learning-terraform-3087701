@@ -67,10 +67,6 @@ module "blog_alb" {
   subnets = module.blog_vpc.public_subnets
   security_groups    = [module.blog_sg.security_group_id]
 
-  access_logs = {
-    bucket = "my-alb-logs"
-  }
-
   listeners = {
     ex-http-https-redirect = {
       port     = 80
