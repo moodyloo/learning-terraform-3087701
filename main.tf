@@ -82,9 +82,10 @@ module "blog_alb" {
       }
     }
   }
-  
+
   target_groups = {
     ex-instance = {
+      target_id        = ""
       name_prefix      = "h1"
       protocol         = "HTTP"
       port             = 80
