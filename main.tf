@@ -29,34 +29,6 @@ module "blog_vpc" {
   }
 }
 
-/*
-module "autoscaling" {
-  source  = "terraform-aws-modules/autoscaling/aws"
-  version = "7.4.0"
-  
-  name = "blog"
-  min_size = 1
-  max_size = 2
-
-  vpc_zone_identifier   = module.blog_vpc.public_subnets
-  target_group_arns     = [aws_instance.blog.arn]
-  security_groups       = [module.blog_sg.security_group_id]
-  
-  image_id            = data.aws_ami.app_ami.id
-  instance_type       = var.instance_type
-}
-*/
-resource "aws_instance" "blog" {
-  ami                    = data.aws_ami.app_ami.id
-  instance_type          = var.instance_type
-  subnet_id              = module.blog_vpc.public_subnets[0]
-  vpc_security_group_ids = [module.blog_sg.security_group_id]
-
-  tags = {
-    Name = "Learning Terraform"
-  }
-}
-
 module "blog_sg" {
   source = "terraform-aws-modules/security-group/aws"
   version = "4.13.0"
@@ -73,7 +45,7 @@ module "blog_sg" {
 
 module "blog_alb" {
   source = "terraform-aws-modules/alb/aws"
-  version = "9.7.0"
+  version = "~> 6.0"
 
   load_balancer_type = "application"
 
@@ -82,17 +54,13 @@ module "blog_alb" {
   subnets            = module.blog_vpc.public_subnets
   security_groups    = [module.blog_sg.security_group_id]
 
-  listeners = {
-    ex-http-https-redirect = {
-      port     = 80
-      protocol = "HTTP"
-      redirect = {
-        port        = "443"
-        protocol    = "HTTPS"
-        status_code = "HTTP_301"
-      }
+  http_tcp_listeners = [
+    {
+      port               = 80
+      protocol           = "HTTP"
+      target_group_index = 0
     }
-  }
+  ]
 
   target_groups = {
     ex-instance = {
@@ -108,4 +76,19 @@ module "blog_alb" {
     Environment = "Development"
     Project     = "Example"
   }
+}
+
+module "blog_autoscaling" {
+  source  = "terraform-aws-modules/autoscaling/aws"
+  version = "6.5.2"
+
+  name = "${var.environment.name}-blog"
+
+  min_size            = var.asg_min
+  max_size            = var.asg_max
+  vpc_zone_identifier = module.blog_vpc.public_subnets
+  target_group_arns   = module.blog_alb.target_group_arns
+  security_groups     = [module.blog_sg.security_group_id]
+  instance_type       = var.instance_type
+  image_id            = data.aws_ami.app_ami.id
 }
