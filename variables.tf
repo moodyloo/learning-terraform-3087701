@@ -17,3 +17,35 @@ variable "project_name" {
   description = "Blog project name"
   default = "blog"
 }
+
+
+
+variable "ami_filter" {
+  description = "Name filter and owner of AMI"
+
+  type = object({
+    name = string
+    owner = string
+  })
+
+  default = {
+    name = "bitnami-tomcat-*-x86_64-hvm-ebs-nami"
+    owner = "979382823631" # Bitnami
+  }
+}
+
+variable "environment" {
+  description = Development Environment"
+
+  type = object({
+    name = string
+    network_prefix = string
+  })
+
+  default = {
+    name = "dev"
+    network_prefix = "10.0"
+  }
+}
+
+
