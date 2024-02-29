@@ -12,3 +12,8 @@ variable "asg_max" {
   description = "Maximum instance count for the ASG"
   default     = 2
 }
+
+variable "project_name" {
+  description = "Blog project name"
+  default = "blog"
+}
