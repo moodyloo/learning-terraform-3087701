@@ -62,15 +62,14 @@ module "blog_alb" {
     }
   ]
 
-  target_groups = {
-    ex-instance = {
-      target_id        = aws_instance.blog.id
-      name_prefix      = "h1"
-      protocol         = "HTTP"
-      port             = 80
+  target_groups = [
+    {
+      name_prefix      = "dev-"
+      backend_protocol = "HTTP"
+      backend_port     = 80
       target_type      = "instance"
     }
-  }
+  ]
 
   tags = {
     Environment = "Development"
