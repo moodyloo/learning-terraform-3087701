@@ -76,7 +76,7 @@ module "blog_alb" {
   ]
 
   tags = {
-    Environment = "${var.environment.name}elopment"
+    Environment = "${var.environment.name}"
     Project     = "Example"
   }
 }
