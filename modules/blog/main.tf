@@ -53,7 +53,7 @@ module "blog_alb" {
 
   load_balancer_type = "application"
 
-  name               = "${var.project_name}-alb"
+  name               = "${var.environment.name}-alb"
   vpc_id             = module.blog_vpc.vpc_id
   subnets            = module.blog_vpc.public_subnets
   security_groups    = [module.blog_sg.security_group_id]

@@ -13,13 +13,6 @@ variable "asg_max" {
   default     = 2
 }
 
-variable "project_name" {
-  description = "Blog project name"
-  default = "blog"
-}
-
-
-
 variable "ami_filter" {
   description = "Name filter and owner of AMI"
 
