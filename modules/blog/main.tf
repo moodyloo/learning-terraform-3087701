@@ -45,11 +45,9 @@ module "blog_sg" {
 
   egress_rules        = ["all-all"]
   egress_cidr_blocks  = ["0.0.0.0/0"]
-  
+
   lifecycle {
-    ignore_changes = [
-      create_before_destroy = true
-    ]
+    create_before_destroy = true
   }
 }
 
